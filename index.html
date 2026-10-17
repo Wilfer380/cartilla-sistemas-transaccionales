@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Cartilla digital interactiva sobre el sistema de ventas e inventario de la empresa XYZ.">
+  <title>Ventas que sí cuadran | Cartilla digital</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <header class="topbar">
+    <a class="brand" href="#portada" aria-label="Ir a la portada"><span class="brand-mark">V</span><span>Ventas que sí cuadran</span></a>
+    <nav aria-label="Navegación principal">
+      <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="mainNav">Menú</button>
+      <div class="nav-links" id="mainNav">
+        <a href="#caso">El caso</a><a href="#arquitectura">Arquitectura</a><a href="#proyecto">Desarrollo</a><a href="#pruebas">Pruebas</a><a href="#referencias">Referencias</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="portada">
+      <img src="assets/portada-tienda.webp" alt="Tienda de productos electrónicos con un sistema de inventario en pantalla">
+      <div class="hero-overlay"></div>
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Cartilla digital · Sistemas Transaccionales</p>
+        <h1>Ventas que<br><em>sí cuadran</em></h1>
+        <p>Diseño de un sistema de ventas e inventario para la empresa XYZ, explicado desde una situación cotidiana y con ejemplos claros.</p>
+        <div class="hero-actions"><a class="button primary" href="#caso">Comenzar lectura</a><button class="button ghost" id="openContents">Ver contenido</button></div>
+      </div>
+      <div class="author-card"><strong>Wilfer Daney Bueno Andica</strong><span>Ingeniería de Sistemas · UNIMINUTO</span><span>Docente: Angela Consuelo Rodriguez Gaitan</span><span>Medellín · 17 de octubre de 2026</span></div>
+      <p class="image-note">Imagen generada específicamente para esta cartilla.</p>
+    </section>
+
+    <dialog id="contentsDialog">
+      <button class="dialog-close" id="closeContents" aria-label="Cerrar">×</button>
+      <p class="eyebrow dark">Tabla de contenido automática</p><h2>El recorrido de la cartilla</h2>
+      <p class="contents-help">Este índice se actualiza a partir de los capítulos visibles de la cartilla.</p>
+      <ol class="contents-list" id="contentsList"></ol>
+    </dialog>
+
+    <section class="chapter intro" id="caso" data-toc="El caso de la empresa XYZ">
+      <div class="chapter-number">01</div>
+      <div class="chapter-heading reveal"><p class="eyebrow dark">El punto de partida</p><h2>Una venta debe dejar todo en orden</h2><p>XYZ es una tienda de electrónicos que necesita saber qué vendió, cuánto queda disponible y cuál fue el valor de cada operación. El problema aparece cuando la venta se guarda, pero el inventario no cambia, o cuando se descuentan unidades sin registrar la compra.</p></div>
+      <div class="editorial-grid">
+        <article class="story-card reveal"><span class="tag yellow">Necesidad</span><h3>Información que coincida</h3><p>El vendedor debe registrar el producto, la cantidad y el precio. Al mismo tiempo, el sistema tiene que reducir las existencias correctas. Ambas acciones deben terminar juntas.</p></article>
+        <article class="story-card reveal"><span class="tag green">Respuesta</span><h3>Una aplicación sencilla</h3><p>La propuesta utiliza Java para la pantalla y MySQL para guardar la información. Si alguna parte falla, los cambios se cancelan y los datos regresan a su estado anterior.</p></article>
+        <blockquote class="pullquote reveal">“La meta no es guardar más datos, sino evitar que una misma venta deje versiones diferentes de lo ocurrido.”</blockquote>
+      </div>
+    </section>
+
+    <section class="chapter navy" id="arquitectura" data-toc="Arquitectura del sistema">
+      <div class="chapter-number light">02</div>
+      <div class="chapter-heading light reveal"><p class="eyebrow">Pregunta orientadora 1</p><h2>¿Qué componentes forman el sistema?</h2><p>La arquitectura es la manera en que se reparten las responsabilidades. En este caso se organiza en seis partes que se conectan entre sí.</p></div>
+      <div class="architecture-map reveal" role="img" aria-label="Mapa de componentes del sistema">
+        <div class="node"><b>Interfaz</b><span>Recibe la venta</span></div><div class="connector">→</div>
+        <div class="node"><b>Reglas</b><span>Valida la operación</span></div><div class="connector">→</div>
+        <div class="node accent"><b>Transacción</b><span>Confirma o deshace</span></div><div class="connector">→</div>
+        <div class="node"><b>Conexión</b><span>Comunica con MySQL</span></div><div class="connector">→</div>
+        <div class="node"><b>Base de datos</b><span>Guarda productos y ventas</span></div><div class="connector">→</div>
+        <div class="node"><b>Integración</b><span>Comparte con contabilidad</span></div>
+      </div>
+      <p class="source-note">Síntesis basada en Valderrey (2014a) y Hueso (2014).</p>
+    </section>
+
+    <section class="chapter" id="enfoques" data-toc="Enfoques de diseño">
+      <div class="chapter-heading reveal"><p class="eyebrow dark">Pregunta orientadora 2</p><h2>¿Cuáles enfoques se utilizan y por qué?</h2><p>No hay una única organización válida. La decisión depende del tamaño de la empresa, la cantidad de usuarios y la necesidad de compartir información.</p></div>
+      <div class="tabs reveal" data-tabs>
+        <div class="tab-buttons" role="tablist"><button class="active" data-tab="capas">Por capas</button><button data-tab="central">Centralizado</button><button data-tab="distribuido">Distribuido</button><button data-tab="servicios">Por servicios</button></div>
+        <div class="tab-panel active" id="capas"><span class="big-number">01</span><div><h3>Diseño por capas</h3><p>Separa la pantalla, las reglas y el acceso a los datos. Es muy utilizado porque permite modificar una parte sin desordenar las demás. Para el caso de XYZ ofrece el equilibrio más claro entre sencillez y posibilidad de crecimiento.</p></div></div>
+        <div class="tab-panel" id="central"><span class="big-number">02</span><div><h3>Diseño centralizado</h3><p>La aplicación depende de un servidor principal. Puede ser suficiente para una tienda pequeña y facilita la administración, aunque una falla central puede detener el servicio completo.</p></div></div>
+        <div class="tab-panel" id="distribuido"><span class="big-number">03</span><div><h3>Diseño distribuido</h3><p>La información o las tareas se reparten entre varios equipos. Ayuda cuando existen varias sedes o muchas operaciones, pero requiere una coordinación más cuidadosa.</p></div></div>
+        <div class="tab-panel" id="servicios"><span class="big-number">04</span><div><h3>Diseño por servicios</h3><p>Ventas, inventario y contabilidad trabajan como módulos separados. Esto permite que cada área crezca de forma independiente, siempre que las comunicaciones se controlen para no repetir operaciones.</p></div></div>
+      </div>
+      <p class="source-note">Comparación elaborada a partir de Valderrey (2014a) y Hueso (2014).</p>
+    </section>
+
+    <section class="photo-break">
+      <img src="assets/base-datos.webp" alt="Persona revisando en dos pantallas una base de datos y un panel de inventario">
+      <div><p class="eyebrow">Del diseño a la práctica</p><h2>El sistema se construye paso a paso</h2><p>Cada fase responde a una necesidad concreta de la tienda.</p></div>
+      <p class="image-note">Imagen generada específicamente para esta cartilla.</p>
+    </section>
+
+    <section class="chapter" id="proyecto" data-toc="Desarrollo paso a paso">
+      <div class="chapter-number">03</div>
+      <div class="chapter-heading reveal"><p class="eyebrow dark">Desarrollo del proyecto</p><h2>Cinco fases conectadas</h2><p>La propuesta no se limita a crear tablas. También contempla la pantalla de uso, las clases Java, la protección de los cambios y la comunicación con otras áreas.</p></div>
+      <div class="timeline">
+        <article class="timeline-item reveal"><div class="step">1</div><div><h3>Creación de la base de datos</h3><p>Se creó la base <code>ventas</code> en MySQL. La tabla <code>productos</code> conserva nombre, descripción, precio y cantidad disponible. La tabla <code>ventas</code> guarda fecha, producto, cantidad, precio, total y estado contable.</p><div class="schema"><div><b>productos</b><span>id</span><span>nombre</span><span>descripción</span><span>precio</span><span>cantidad disponible</span></div><i>1 → muchas</i><div><b>ventas</b><span>id</span><span>fecha</span><span>producto_id</span><span>cantidad</span><span>total</span></div></div><figure class="step-evidence"><img src="assets/evidencia-base-datos.png" alt="Base de datos ventas creada en MySQL con las tablas productos y ventas"><figcaption><b>Comprobación del paso 1.</b> La base <code>ventas</code> quedó creada con sus tablas y productos iniciales.</figcaption></figure></div></article>
+        <article class="timeline-item reveal"><div class="step">2</div><div><h3>Interfaz para el vendedor</h3><p>La pantalla mantiene una tarea visible: seleccionar el producto, indicar la cantidad y confirmar. Al abrirse, consulta en MySQL los productos y sus existencias actuales. Después de cada venta vuelve a leer el inventario, por lo que el vendedor observa de inmediato la cantidad disponible. Los mensajes explican si la operación terminó o por qué fue cancelada.</p><figure class="step-evidence"><img src="assets/evidencia-venta-confirmada.png" alt="Aplicación Java confirmando una venta de dos audífonos"><figcaption><b>Comprobación del paso 2.</b> La pantalla permitió seleccionar dos unidades y confirmó que la venta se guardó.</figcaption></figure></div></article>
+        <article class="timeline-item reveal"><div class="step">3</div><div><h3>Clases Java y acceso a los datos</h3><p>Cada clase atiende una responsabilidad. Esta organización evita mezclar la pantalla con las consultas y permite comprender mejor el proyecto. El conector MySQL para Java abre la comunicación, mientras que <code>ProductoDAO</code> contiene las operaciones para crear, consultar, actualizar y eliminar productos. <code>VentaDAO</code> registra la venta y actualiza las existencias dentro del mismo proceso.</p><div class="class-grid"><span><b>ConexionBD</b> abre la comunicación</span><span><b>Producto</b> representa un artículo</span><span><b>ProductoDAO</b> crea, consulta, actualiza y elimina</span><span><b>VentaDAO</b> guarda la venta y descuenta existencias</span><span><b>VentanaVentas</b> muestra el formulario y los resultados</span><span><b>MySQL Connector/J</b> enlaza Java con MySQL</span></div><figure class="step-evidence"><img src="assets/evidencia-compilacion.png" alt="Proyecto Java compilado correctamente en NetBeans"><figcaption><b>Comprobación del paso 3.</b> NetBeans reconoció las clases y terminó la compilación con el mensaje <em>BUILD SUCCESS</em>.</figcaption></figure></div></article>
+        <article class="timeline-item reveal" id="transacciones"><div class="step">4</div><div><h3>Mecanismo de transacciones</h3><p>El descuento del inventario y el registro de la venta se tratan como una sola operación. <strong>Commit</strong> confirma los cambios cuando todo sale bien. <strong>Rollback</strong> los deshace cuando aparece un error.</p><div class="transaction-flow"><span>Revisar</span><i>→</i><span>Descontar</span><i>→</i><span>Guardar</span><i>→</i><span class="success">Confirmar</span></div><div class="transaction-evidence"><figure class="step-evidence"><img src="assets/evidencia-registro-venta.png" alt="Registro de la venta almacenado en MySQL"><figcaption><b>Confirmación.</b> MySQL guardó una venta por dos unidades y dejó el inventario en seis.</figcaption></figure><figure class="step-evidence"><img src="assets/evidencia-venta-rechazada.png" alt="Aplicación rechazando una venta por inventario insuficiente"><figcaption><b>Cancelación.</b> Al solicitar veinte unidades, el sistema rechazó la venta porque solo había seis.</figcaption></figure></div><div class="rollback-inline"><img src="assets/evidencia-rollback-ventas.png" alt="Consulta que muestra una sola venta"><img src="assets/evidencia-rollback-inventario.png" alt="Consulta que muestra seis audífonos disponibles"><p><b>Verificación después de cancelar:</b> continuó existiendo una sola venta y el inventario permaneció en seis unidades. No quedaron cambios parciales.</p></div></div></article>
+        <article class="timeline-item reveal"><div class="step">5</div><div><h3>Integración con contabilidad</h3><p>Cada venta queda identificada con un estado contable pendiente. Este dato permite que otro sistema consulte únicamente las operaciones que aún no ha recibido. Cuando contabilidad confirma el registro, el estado puede cambiar a procesado. Si la comunicación falla, la venta permanece guardada y el envío se intenta nuevamente sin repetir el descuento del inventario.</p><div class="integration-steps"><span><b>1.</b> Venta confirmada</span><span><b>2.</b> Estado pendiente</span><span><b>3.</b> Lectura contable</span><span><b>4.</b> Confirmación</span></div></div></article>
+      </div>
+    </section>
+
+    <section class="visual-story">
+      <img src="assets/desarrollo-java.png" alt="Estudiante desarrollando en Java una aplicación de ventas conectada con una base de datos">
+      <div><p class="eyebrow">Evidencia del proceso</p><h2>La cartilla explica una implementación real</h2><p>El proyecto complementario contiene la base de datos, las clases Java y una pantalla para registrar ventas. La imagen representa el espacio de desarrollo; la comprobación definitiva se realiza al ejecutar el proyecto en NetBeans y MySQL.</p></div>
+      <p class="image-note">Imagen generada específicamente para esta cartilla.</p>
+    </section>
+
+    <section class="chapter simulator-section" id="pruebas" data-toc="Prueba interactiva de una venta">
+      <div class="chapter-number">04</div>
+      <div class="chapter-heading reveal"><p class="eyebrow dark">Simulación educativa</p><h2>Prueba una venta de principio a fin</h2><p>Escoge un producto y una cantidad. Después podrás confirmar o cancelar la operación. El panel mostrará qué ocurre con el inventario, el registro de ventas y el envío a contabilidad.</p></div>
+      <div class="simulator reveal">
+        <div class="product-visual"><div class="headphones" aria-hidden="true">◖●◗</div><span id="productName">Audífonos Bluetooth</span><b id="stockLabel">8 unidades disponibles</b><small id="priceLabel">Precio: $85.000</small></div>
+        <form class="sim-controls" id="saleForm">
+          <label for="productSelect">Producto</label>
+          <select id="productSelect"><option value="audifonos">Audífonos Bluetooth</option><option value="teclado">Teclado inalámbrico</option><option value="camara">Cámara web</option></select>
+          <label for="quantityInput">Cantidad solicitada</label>
+          <input id="quantityInput" type="number" min="1" max="20" value="1" required>
+          <button id="startSale" type="submit" class="button primary">Iniciar venta</button>
+        </form>
+        <div class="sim-result" id="simResult" aria-live="polite"><div><strong>Lista para comenzar</strong><br><span>Selecciona un producto e inicia la venta.</span></div></div>
+      </div>
+      <div class="transaction-console reveal" id="transactionConsole" hidden>
+        <div class="transaction-summary"><div><span>Producto</span><strong id="summaryProduct">—</strong></div><div><span>Cantidad</span><strong id="summaryQuantity">—</strong></div><div><span>Total</span><strong id="summaryTotal">—</strong></div></div>
+        <ol class="process-steps" id="processSteps"><li data-step="validate">Validar datos</li><li data-step="reserve">Reservar inventario</li><li data-step="sale">Registrar venta</li><li data-step="stock">Actualizar existencias</li><li data-step="accounting">Enviar a contabilidad</li></ol>
+        <div class="decision-actions" id="decisionActions"><button class="button confirm" id="confirmSale" type="button">Confirmar operación</button><button class="button cancel" id="cancelSale" type="button">Cancelar y revertir</button></div>
+        <div class="transaction-dashboard"><div><span>Inventario actual</span><strong id="dashboardStock">8</strong></div><div><span>Ventas registradas</span><strong id="dashboardSales">0</strong></div><div><span>Estado contable</span><strong id="dashboardAccounting">Sin envío</strong></div><div><span>Resultado</span><strong id="dashboardResult">Pendiente</strong></div></div>
+        <div class="event-log"><div class="log-title"><strong>Registro de la prueba</strong><button id="resetSimulation" type="button">Reiniciar</button></div><ol id="eventLog"><li>La simulación está preparada.</li></ol></div>
+      </div>
+      <div class="test-cards"><article><span class="status ok">Venta válida</span><p>Si existe inventario, se guarda la venta y se descuentan las unidades.</p></article><article><span class="status error">Venta cancelada</span><p>Si la cantidad supera las existencias, no se guarda nada y el inventario sigue igual.</p></article></div>
+    </section>
+
+    <section class="photo-feature">
+      <img src="assets/registro-venta.webp" alt="Registro de una venta de audífonos en una tienda de electrónicos">
+      <div class="feature-copy"><p class="eyebrow">Escenario real</p><h2>La operación debe sentirse rápida, pero también segura</h2><p>Para el vendedor es un solo clic. Detrás de la pantalla, el sistema valida la cantidad, registra la compra y actualiza el inventario.</p></div>
+      <p class="image-note">Imagen generada específicamente para esta cartilla.</p>
+    </section>
+
+    <section class="chapter security" id="seguridad" data-toc="Seguridad y respaldo de los datos">
+      <div class="chapter-heading reveal"><p class="eyebrow dark">Seguridad de los datos</p><h2>Cuatro cuidados cotidianos</h2><p>La protección no depende de una sola herramienta. Se construye al combinar controles sencillos y constantes.</p></div>
+      <div class="security-grid"><article><span>01</span><h3>Acceso controlado</h3><p>Cada vendedor utiliza su propia cuenta y solo ve las funciones que necesita.</p></article><article><span>02</span><h3>Datos validados</h3><p>El sistema rechaza cantidades incorrectas y evita instrucciones peligrosas en los formularios.</p></article><article><span>03</span><h3>Copias comprobadas</h3><p>Los respaldos se realizan con frecuencia y también se prueba que puedan restaurarse.</p></article><article><span>04</span><h3>Historial de cambios</h3><p>Se conserva quién realizó cada venta, en qué momento y si fue anulada.</p></article></div>
+      <p class="source-note">Medidas sintetizadas a partir de Valderrey (2014b).</p>
+    </section>
+
+    <section class="visual-story reverse">
+      <img src="assets/respaldo-datos.png" alt="Persona verificando el respaldo de una base de datos junto a equipos de almacenamiento">
+      <div><p class="eyebrow">Respaldo y continuidad</p><h2>Guardar una copia no basta</h2><p>La empresa necesita respaldos frecuentes, pero también debe comprobar que puedan recuperarse. Esa verificación reduce el tiempo de interrupción cuando aparece un daño o una eliminación accidental.</p></div>
+      <p class="image-note">Imagen generada específicamente para esta cartilla.</p>
+    </section>
+
+    <section class="integration-feature">
+      <img src="assets/integracion-contable.webp" alt="Relación visual entre una venta, el inventario y el registro contable">
+      <div class="integration-copy"><p class="eyebrow dark">Integración</p><h2>Una misma venta, una sola versión</h2><p>Cuando ventas, inventario y contabilidad comparten la operación, la empresa evita escribirla varias veces y reduce diferencias entre áreas.</p><ul><li>La venta se registra una sola vez.</li><li>El inventario se actualiza en el mismo proceso.</li><li>Contabilidad recibe el valor y confirma la recepción.</li></ul></div>
+      <p class="image-note dark-note">Imagen generada específicamente para esta cartilla.</p>
+    </section>
+
+    <section class="chapter closing" id="cierre" data-toc="Reflexión final">
+      <div class="chapter-number">05</div>
+      <div class="chapter-heading reveal"><p class="eyebrow dark">Reflexión final</p><h2>Lo que deja el caso de XYZ</h2></div>
+      <div class="closing-grid"><div><h3>Respuesta a las preguntas orientadoras</h3><p>El sistema se compone de interfaz, reglas, conexión, base de datos, control de transacciones e integración. Los enfoques centralizado, por capas, distribuido y por servicios se eligen según el tamaño y la necesidad de crecimiento. Para XYZ, la organización por capas resulta clara y suficiente.</p></div><div><h3>Conclusión personal</h3><p>Registrar una venta implica más que guardar una fila. La información solo es confiable cuando el inventario cambia al mismo tiempo, los errores pueden deshacerse y las demás áreas reciben exactamente la misma operación.</p></div></div>
+    </section>
+
+    <section class="chapter references" id="referencias" data-toc="Referencias">
+      <div class="chapter-heading"><p class="eyebrow dark">Referencias</p><h2>Fuentes consultadas</h2><p>Solo se incluyen los recursos utilizados para orientar el contenido conceptual.</p></div>
+      <div class="reference-list">
+        <p>Hueso, L. (2014). Bases de datos distribuidas. En <em>Gestión de bases de datos</em> (2.ª ed., pp. 274-284). RA-MA Editorial.</p>
+        <p>Valderrey, P. (2014a). Sistemas gestores de bases de datos distribuidos. En <em>Administración de sistemas gestores de bases de datos</em> (pp. 235-248). RA-MA Editorial.</p>
+        <p>Valderrey, P. (2014b). Seguridad de los datos. En <em>Gestión de bases de datos</em> (pp. 211-234). RA-MA Editorial.</p>
+      </div>
+    </section>
+
+    <section class="legal-page" id="legal" data-toc="Página legal y créditos">
+      <div><p class="eyebrow">Página legal y créditos</p><h2>Información de la cartilla</h2><p><b>Autor:</b> Wilfer Daney Bueno Andica</p><p><b>Programa:</b> Ingeniería de Sistemas</p><p><b>Institución:</b> Corporación Universitaria Minuto de Dios - UNIMINUTO</p><p><b>Docente:</b> Angela Consuelo Rodriguez Gaitan</p><p><b>Fecha:</b> 17 de octubre de 2026</p></div>
+      <div><h3>Sobre los recursos visuales</h3><p>Las ilustraciones temáticas fueron generadas específicamente para esta cartilla. Las capturas de MySQL Workbench y Apache NetBeans corresponden a la ejecución real del proyecto descrito. El contenido se preparó con fines académicos y las fuentes conceptuales se encuentran en la sección de referencias.</p></div>
+    </section>
+  </main>
+
+  <footer><div><strong>Ventas que sí cuadran</strong><span>Cartilla digital · Sistemas Transaccionales</span></div><div><span>Wilfer Daney Bueno Andica</span><span>Docente: Angela Consuelo Rodriguez Gaitan</span><span>UNIMINUTO · 2026</span></div></footer>
+  <script src="script.js"></script>
+</body>
+</html>
